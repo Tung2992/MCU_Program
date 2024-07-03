@@ -41,3 +41,7 @@
 //{
 //    //TODO: Read more information in reference manual to know how to de-initialize LPIT0 module.
 //}
+
+void init_lpit(void) {
+
+}
