@@ -3,7 +3,7 @@
 #include "device_registers.h"
 #include "ARM_LPUART.h"
 #include "ARM_NVIC.h"
-
+#include "ARM_CLOCK.h"
 
 
 uint8_t UART_SetParityMode(LPUART_Type* base, uart_parity_mode_t parityMode)
@@ -76,19 +76,18 @@ uint8_t UART_SetBitCountPerChar(LPUART_Type* base, uart_bit_count_per_char_t bit
 	return 0;
 }
 
-uint8_t UART_Set_Baudrate(LPUART_Type* base, uint32_t desiredBaudRate)
+uint8_t UART_Set_Baudrate(LPUART_Type* base, uint32_t desiredBaudRate, uint32_t sourceClock)
 {
 	base->CTRL &= ~(LPUART_CTRL_TE_MASK | LPUART_CTRL_RE_MASK); /* Disable Transmitter and Receiver */
-//	uint32_t clockFrequency = FAST_IRC;
-//	uint32_t sbr = clockFrequency / (desiredBaudRate * (OSR_DEFAULT + 1)); /* OSR = 16 -> Default value */
-//	base->BAUD &= ~LPUART_BAUD_OSR_MASK; /* 00000b - Writing 0 to this field results in an oversampling ratio of 16 */
-//	base->BAUD &= ~LPUART_BAUD_SBR_MASK;
-//	base->BAUD |= (sbr & LPUART_BAUD_SBR_MASK);
-
-	base->BAUD &= ~(LPUART_BAUD_OSR_MASK | LPUART_BAUD_SBNS_MASK);
-	base->BAUD |= LPUART_BAUD_OSR(15);
-	base->BAUD |= LPUART_BAUD_SBR(52);
-
+	uint32_t SBR;
+	switch (sourceClock) {
+	case FAST_IRC:
+		SBR = FAST_IRC / (desiredBaudRate * 16);
+		base->BAUD &= ~(LPUART_BAUD_OSR_MASK | LPUART_BAUD_SBNS_MASK);
+		base->BAUD |= LPUART_BAUD_OSR(15);
+		base->BAUD |= LPUART_BAUD_SBR(SBR);
+		break;
+	}
 	return 0;
 }
 
@@ -153,10 +152,14 @@ uint8_t UART_SelectSourceClock(LPUART_Type* base, uart_source_clock_t source) {
 	return 0;
 }
 
+void UART_Set_MSB_LSB(LPUART_Type* base, uart_msb_lsb_t select) {
+
+}
+
 uint8_t UART_Init(LPUART_Type* base, uart_config_t * uartConfig)
 {
 	UART_SelectSourceClock(base, UART_FIRCDIV2_CLK);
-	UART_Set_Baudrate(base, uartConfig->baudRate);
+	UART_Set_Baudrate(base, uartConfig->baudRate, FAST_IRC);
 	UART_SetParityMode(base, uartConfig->parityMode);
 	UART_SetStopBit(base, uartConfig->stopBitCount);
 	UART_SetBitCountPerChar(base , uartConfig->bitCountPerChar);

@@ -2,8 +2,6 @@
 #define __ARM_UART__
 
 #define TIME_OUT			10000000;
-#define FAST_IRC			48000000
-#define OSR_DEFAULT 		16
 
 typedef enum
 {
@@ -26,6 +24,12 @@ typedef enum
     UART_ONE_STOP_BIT, 		/*!< one stop bit */
     UART_TWO_STOP_BIT  		/*!< two stop bits */
 } uart_stop_bit_count_t;
+
+typedef enum
+{
+	UART_MSB,
+	UART_LSB
+} uart_msb_lsb_t;
 
 typedef enum
 {
@@ -54,7 +58,7 @@ typedef struct
 uint8_t UART_SetParityMode(LPUART_Type* base, uart_parity_mode_t parityMode);
 uint8_t UART_SetStopBit(LPUART_Type* base, uart_stop_bit_count_t stopBit);
 uint8_t UART_SetBitCountPerChar(LPUART_Type* base, uart_bit_count_per_char_t bitCountPerChar);
-uint8_t UART_Set_Baudrate(LPUART_Type* base, uint32_t desiredBaudRate);
+uint8_t UART_Set_Baudrate(LPUART_Type* base, uint32_t desiredBaudRate, uint32_t sourceClock);
 uint8_t UART_SelectSourceClock(LPUART_Type* base, uart_source_clock_t source);
 uint8_t UART_Init(LPUART_Type* base, uart_config_t * uartConfig);
 uint8_t UART_Deinit(LPUART_Type* base);

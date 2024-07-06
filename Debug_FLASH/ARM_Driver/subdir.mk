@@ -5,18 +5,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../ARM_Driver/ARM_ADC.c \
+../ARM_Driver/ARM_CLOCK.c \
 ../ARM_Driver/ARM_GPIO.c \
 ../ARM_Driver/ARM_LPIT.c \
 ../ARM_Driver/ARM_LPUART.c 
 
 OBJS += \
 ./ARM_Driver/ARM_ADC.o \
+./ARM_Driver/ARM_CLOCK.o \
 ./ARM_Driver/ARM_GPIO.o \
 ./ARM_Driver/ARM_LPIT.o \
 ./ARM_Driver/ARM_LPUART.o 
 
 C_DEPS += \
 ./ARM_Driver/ARM_ADC.d \
+./ARM_Driver/ARM_CLOCK.d \
 ./ARM_Driver/ARM_GPIO.d \
 ./ARM_Driver/ARM_LPIT.d \
 ./ARM_Driver/ARM_LPUART.d 

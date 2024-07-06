@@ -1,4 +1,4 @@
-Mock/Mock.o: ../Mock/Mock.c ../Mock/Mock.h \
+Mock/main.o: ../Mock/main.c ../Mock/Mock.h \
  C:/Users/Admin/workspaceS32DS.3.4/My_Project/include/system_S32K144.h \
  C:/Users/Admin/workspaceS32DS.3.4/My_Project/include/device_registers.h \
  C:/Users/Admin/workspaceS32DS.3.4/My_Project/include/s32_core_cm4.h \

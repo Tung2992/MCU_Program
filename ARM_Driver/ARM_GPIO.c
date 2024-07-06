@@ -195,13 +195,13 @@ void ARM_GPIO_SignalEvent (ARM_GPIO_Pin_t pin, uint32_t event) {
 
 ARM_DRIVER_GPIO Driver_GPIO =
 {
-	.Setup = ARM_GPIO_Setup,
-	.SetDirection = ARM_GPIO_SetDirection,
-	.SetOutputMode =ARM_GPIO_SetOutputMode,
-	.SetPullResistor = ARM_GPIO_SetPullResistor,
-	.SetEventTrigger = ARM_GPIO_SetEventTrigger,
-	.SetOutput = ARM_GPIO_SetOutput,
-    .GetInput = ARM_GPIO_GetInput
+	.Setup 				= ARM_GPIO_Setup,
+	.SetDirection 		= ARM_GPIO_SetDirection,
+	.SetOutputMode 		= ARM_GPIO_SetOutputMode,
+	.SetPullResistor 	= ARM_GPIO_SetPullResistor,
+	.SetEventTrigger 	= ARM_GPIO_SetEventTrigger,
+	.SetOutput 			= ARM_GPIO_SetOutput,
+    .GetInput 			= ARM_GPIO_GetInput
 };
 
 
