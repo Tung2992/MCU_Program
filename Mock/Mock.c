@@ -129,7 +129,6 @@ void GPIO_Event_Handler(ARM_GPIO_Pin_t pin, uint32_t event) {
 }
 
 
-
 void Init_Devices() {
 	Source_Clock(FAST_IRC);
 
