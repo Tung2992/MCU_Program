@@ -2,6 +2,7 @@
 #define __LPIT_H__
 
 #include "device_registers.h"
+#include "ARM_NVIC.h"
 
 #define LPIT_CLK    48000000    /* Hz */
 #define CORE_CLK    48000000    /* Hz */
@@ -54,7 +55,10 @@ typedef struct {
 											false: decrement immediately */
 } lpit_channel_config_t;
 
-void LPIT_Init(void);
+void LPIT_Init(lpit_chnl_t channel);
+void LPIT_ResetVal(lpit_chnl_t channel,uint32_t value);
+void LPIT_Start(lpit_chnl_t channel);
+void LPIT_Stop(lpit_chnl_t channel);
 void LPIT_Deinit(void);
 
 

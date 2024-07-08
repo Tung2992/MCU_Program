@@ -53,11 +53,13 @@ typedef struct
     uart_stop_bit_count_t stopBitCount;
     uart_bit_count_per_char_t bitCountPerChar;
     uart_transfer_type_t transferType;
+    uart_msb_lsb_t selectMSBLSB;
 } uart_config_t;
 
 uint8_t UART_SetParityMode(LPUART_Type* base, uart_parity_mode_t parityMode);
 uint8_t UART_SetStopBit(LPUART_Type* base, uart_stop_bit_count_t stopBit);
 uint8_t UART_SetBitCountPerChar(LPUART_Type* base, uart_bit_count_per_char_t bitCountPerChar);
+void UART_Set_MSB_LSB(LPUART_Type* base, uart_msb_lsb_t select);
 uint8_t UART_Set_Baudrate(LPUART_Type* base, uint32_t desiredBaudRate, uint32_t sourceClock);
 uint8_t UART_SelectSourceClock(LPUART_Type* base, uart_source_clock_t source);
 uint8_t UART_Init(LPUART_Type* base, uart_config_t * uartConfig);

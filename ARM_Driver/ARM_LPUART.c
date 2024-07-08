@@ -153,7 +153,14 @@ uint8_t UART_SelectSourceClock(LPUART_Type* base, uart_source_clock_t source) {
 }
 
 void UART_Set_MSB_LSB(LPUART_Type* base, uart_msb_lsb_t select) {
-
+	switch (select) {
+	case UART_MSB:
+		base->STAT |= LPUART_STAT_MSBF_MASK;
+		break;
+	case UART_LSB:
+		base->STAT &= ~LPUART_STAT_MSBF_MASK;
+		break;
+	}
 }
 
 uint8_t UART_Init(LPUART_Type* base, uart_config_t * uartConfig)
@@ -163,6 +170,7 @@ uint8_t UART_Init(LPUART_Type* base, uart_config_t * uartConfig)
 	UART_SetParityMode(base, uartConfig->parityMode);
 	UART_SetStopBit(base, uartConfig->stopBitCount);
 	UART_SetBitCountPerChar(base , uartConfig->bitCountPerChar);
+	UART_Set_MSB_LSB(base, uartConfig->selectMSBLSB);
 	if (base == LPUART1) {
 		PCC->PCCn[PCC_PORTC_INDEX] |= PCC_PCCn_CGC_MASK;
 		PORTC->PCR[6] &= ~PORT_PCR_MUX_MASK;

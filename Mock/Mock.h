@@ -29,7 +29,8 @@
 
 #define RECEIVE_STATUS_FRAME 				0xFFu
 #define STATUS_PLAY							0xFFu
-#define STATUS_STOP							0x00u
+#define STATUS_PAUSE						0x00u
+#define STATUS_STOP							0xF0u
 
 #define RELEASE 							0
 #define PRESS								1

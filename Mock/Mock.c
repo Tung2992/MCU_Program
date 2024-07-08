@@ -1,7 +1,5 @@
 #include "Mock.h"
 
-
-
 extern ARM_DRIVER_GPIO Driver_GPIO;
 static ARM_DRIVER_GPIO * GPIOdrv = &Driver_GPIO;
 
@@ -187,11 +185,18 @@ void Init_Communication(void) {
 			.bitCountPerChar 	= UART_8_BITS_PER_CHAR,
 			.parityMode 		= UART_PARITY_DISABLED,
 			.stopBitCount 		= UART_ONE_STOP_BIT,
+			.selectMSBLSB		= UART_LSB
 	};
 	UART_Init(LPUART1, &config);
 	UART_ReceiveNonBlocking(LPUART1);
 }
 
+
+void Init_Timer(void) {
+	LPIT_Init(LPIT_Chnl_0);
+	LPIT_ResetVal(LPIT_Chnl_0, 23999999);
+	LPIT_Start(LPIT_Chnl_0);
+}
 
 void SysTick_Handler(void) {
 	button_time++;
@@ -275,8 +280,9 @@ void ADC0_IRQHandler(void) {
 int main() {
 	Init_Devices();
 	Init_Communication();
+	Init_Timer();
 	SysTick_Config(47999);
-	LPIT_Init();
+
 
 	while(true) {
 		if ((transmit_flag == 1) && (transmit_time >= WAIT_TIME)) {
@@ -304,9 +310,14 @@ int main() {
 					GPIOdrv->SetOutput (LED_RED_DEVICE, LED_OFF);
 					GPIOdrv->SetOutput (LED_GREEN_DEVICE, LED_ON);
 				}
-				else if (data_receive_frame.infor.data == STATUS_STOP) {
+				else if (data_receive_frame.infor.data == STATUS_PAUSE) {
 					GPIOdrv->SetOutput (LED_BLUE_DEVICE, LED_OFF);
 					GPIOdrv->SetOutput (LED_RED_DEVICE, LED_ON);
+					GPIOdrv->SetOutput (LED_GREEN_DEVICE, LED_OFF);
+				}
+				else if (data_receive_frame.infor.data == STATUS_STOP) {
+					GPIOdrv->SetOutput (LED_BLUE_DEVICE, LED_OFF);
+					GPIOdrv->SetOutput (LED_RED_DEVICE, LED_OFF);
 					GPIOdrv->SetOutput (LED_GREEN_DEVICE, LED_OFF);
 				}
 				break;
